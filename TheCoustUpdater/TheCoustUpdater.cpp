@@ -5,6 +5,7 @@
 #include <thread>
 #include <windows.h>
 #include <tlhelp32.h>
+#include <chrono>
 
 #include "include/zip/zip.h"
 
@@ -12,6 +13,7 @@
 
 
 using namespace std;
+using namespace std::chrono_literals;   
 
 string GetArgument(int argc, char* argv[], string match)
 {
