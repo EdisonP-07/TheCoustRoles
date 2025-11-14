@@ -3,19 +3,19 @@ using Reactor.Utilities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TheOtherRoles.Objects;
+using TheCoustRoles.Objects;
 
-using TheOtherRoles.Utilities;
+using TheCoustRoles.Utilities;
 using UnityEngine;
 
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
 
 	[HarmonyPatch(typeof(MapBehaviour))]
 	static class MapBehaviourPatch {
 		public static Dictionary<Byte, SpriteRenderer> herePoints = new();
 
-		public static Sprite Vent = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Vent.png", 150f);
+		public static Sprite Vent = Helpers.loadSpriteFromResources("TheCoustRoles.Resources.Vent.png", 150f);
 
 		public static List<List<Vent>> VentNetworks = new();
 
@@ -113,7 +113,7 @@ namespace TheOtherRoles.Patches {
                         continue;
                     }
 
-                    string pointName = $"TOR HerePoint {player.PlayerId}";
+                    string pointName = $"TCR HerePoint {player.PlayerId}";
                     var doublePoint = GameObject.Find(pointName);
 					if (doublePoint != null) {
 						doublePoint.Destroy();
@@ -135,7 +135,7 @@ namespace TheOtherRoles.Patches {
 			foreach (var vent in MapUtilities.CachedShipStatus.AllVents) {
 				if ((vent.name.StartsWith("JackInThe") && !(PlayerControl.LocalPlayer == Trickster.trickster || PlayerControl.LocalPlayer.Data.IsDead))) continue; //for trickster vents
 
-				if (!TheOtherRolesPlugin.ShowVentsOnMap.Value) {
+				if (!TheCoustRolesPlugin.ShowVentsOnMap.Value) {
 					if (mapIcons.Count > 0) {
 						mapIcons.Values.Do((x) => x.Destroy());
 						mapIcons.Clear();
