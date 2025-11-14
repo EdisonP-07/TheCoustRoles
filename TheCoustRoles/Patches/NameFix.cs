@@ -2,7 +2,7 @@ using HarmonyLib;
 using AmongUs.Data;
 using AmongUs.Data.Legacy;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [Harmony]
     public class AccountManagerPatch {
         [HarmonyPatch(typeof(AccountManager), nameof(AccountManager.RandomizeName))]
