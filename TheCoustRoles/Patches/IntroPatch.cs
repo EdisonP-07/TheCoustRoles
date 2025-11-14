@@ -1,16 +1,16 @@
 using HarmonyLib;
 using System;
-using static TheOtherRoles.TheOtherRoles;
+using static TheCoustRoles.TheCoustRoles;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 
-using TheOtherRoles.Utilities;
-using TheOtherRoles.CustomGameModes;
-using TheOtherRoles.Modules;
+using TheCoustRoles.Utilities;
+using TheCoustRoles.CustomGameModes;
+using TheCoustRoles.Modules;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
     class IntroCutsceneOnDestroyPatch
     {
@@ -37,7 +37,7 @@ namespace TheOtherRoles.Patches {
                    // PlayerControl.SetPetImage(data.DefaultOutfit.PetId, data.DefaultOutfit.ColorId, player.PetSlot);
                     player.cosmetics.nameText.text = data.PlayerName;
                     player.SetFlipX(true);
-                    TORMapOptions.playerIcons[p.PlayerId] = player;
+                    TCRMapOptions.playerIcons[p.PlayerId] = player;
                     player.gameObject.SetActive(false);
 
                     if (PlayerControl.LocalPlayer == Arsonist.arsonist && p != Arsonist.arsonist) {
@@ -86,8 +86,8 @@ namespace TheOtherRoles.Patches {
             }           
 
             // First kill
-            if (AmongUsClient.Instance.AmHost && TORMapOptions.shieldFirstKill && TORMapOptions.firstKillName != "" && !HideNSeek.isHideNSeekGM && !PropHunt.isPropHuntGM) {
-                PlayerControl target = PlayerControl.AllPlayerControls.ToArray().ToList().FirstOrDefault(x => x.Data.PlayerName.Equals(TORMapOptions.firstKillName));
+            if (AmongUsClient.Instance.AmHost && TCRMapOptions.shieldFirstKill && TCRMapOptions.firstKillName != "" && !HideNSeek.isHideNSeekGM && !PropHunt.isPropHuntGM) {
+                PlayerControl target = PlayerControl.AllPlayerControls.ToArray().ToList().FirstOrDefault(x => x.Data.PlayerName.Equals(TCRMapOptions.firstKillName));
                 if (target != null) {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetFirstKill, Hazel.SendOption.Reliable, -1);
                     writer.Write(target.PlayerId);
@@ -95,7 +95,7 @@ namespace TheOtherRoles.Patches {
                     RPCProcedure.setFirstKill(target.PlayerId);
                 }
             }
-            TORMapOptions.firstKillName = "";
+            TCRMapOptions.firstKillName = "";
 
             EventUtility.gameStartsUpdate();
 
