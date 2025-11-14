@@ -27,10 +27,10 @@ using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using TheOtherRoles.Utilities;
+using TheCoustRoles.Utilities;
 using UnityEngine.Events;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch(typeof(RegionMenu), nameof(RegionMenu.Open))]
     public static class RegionMenuOpenPatch
     {
@@ -83,10 +83,10 @@ namespace TheOtherRoles.Patches {
                 ipField.characterLimit = 30;
                 ipField.AllowSymbols = true;
                 ipField.ForceUppercase = false;
-                ipField.SetText(TheOtherRolesPlugin.Ip.Value);
+                ipField.SetText(TheCoustRolesPlugin.Ip.Value);
                 __instance.StartCoroutine(Effects.Lerp(0.1f, new Action<float>((p) => {
-                    ipField.outputText.SetText(TheOtherRolesPlugin.Ip.Value);
-                    ipField.SetText(TheOtherRolesPlugin.Ip.Value);
+                    ipField.outputText.SetText(TheCoustRolesPlugin.Ip.Value);
+                    ipField.SetText(TheCoustRolesPlugin.Ip.Value);
                 })));
 
                 ipField.ClearOnFocus = false; 
@@ -97,11 +97,11 @@ namespace TheOtherRoles.Patches {
                 ipField.gameObject.SetActive(isCustomRegion);
 
                 void onEnterOrIpChange() {
-                    TheOtherRolesPlugin.Ip.Value = ipField.text;
+                    TheCoustRolesPlugin.Ip.Value = ipField.text;
                 }
 
                 void onFocusLost() {
-                    TheOtherRolesPlugin.UpdateRegions();
+                    TheCoustRolesPlugin.UpdateRegions();
                 }
             }
 
@@ -114,10 +114,10 @@ namespace TheOtherRoles.Patches {
 
                 portField.transform.localPosition = new Vector3(3.225f, -1.55f, -100f);
                 portField.characterLimit = 5;
-                portField.SetText(TheOtherRolesPlugin.Port.Value.ToString());
+                portField.SetText(TheCoustRolesPlugin.Port.Value.ToString());
                 __instance.StartCoroutine(Effects.Lerp(0.1f, new Action<float>((p) => {
-                    portField.outputText.SetText(TheOtherRolesPlugin.Port.Value.ToString());
-                    portField.SetText(TheOtherRolesPlugin.Port.Value.ToString()); 
+                    portField.outputText.SetText(TheCoustRolesPlugin.Port.Value.ToString());
+                    portField.SetText(TheCoustRolesPlugin.Port.Value.ToString()); 
                 })));
 
 
@@ -131,7 +131,7 @@ namespace TheOtherRoles.Patches {
                 void onEnterOrPortFieldChange() {
                     ushort port = 0;
                     if (ushort.TryParse(portField.text, out port)) {
-                        TheOtherRolesPlugin.Port.Value = port;
+                        TheCoustRolesPlugin.Port.Value = port;
                         portField.outputText.color = Color.white;
                     } else {
                         portField.outputText.color = Color.red;
@@ -139,7 +139,7 @@ namespace TheOtherRoles.Patches {
                 }
                 
                 void onFocusLost() {
-                    TheOtherRolesPlugin.UpdateRegions();
+                    TheCoustRolesPlugin.UpdateRegions();
                 }
             }
 
