@@ -2,31 +2,31 @@ using HarmonyLib;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using TheOtherRoles.Utilities;
+using TheCoustRoles.Utilities;
 using TMPro;
 using UnityEngine.Events;
 using static UnityEngine.UI.Button;
 using Object = UnityEngine.Object;
 
-namespace TheOtherRoles.Patches 
+namespace TheCoustRoles.Patches 
 {
     [HarmonyPatch]
     public static class ClientOptionsPatch
     {
         private static readonly SelectionBehaviour[] AllOptions = {
-            new("Ghosts See Tasks & Other Info", () => TORMapOptions.ghostsSeeInformation = TheOtherRolesPlugin.GhostsSeeInformation.Value = !TheOtherRolesPlugin.GhostsSeeInformation.Value, TheOtherRolesPlugin.GhostsSeeInformation.Value),
-            new("Ghosts Can See Votes", () => TORMapOptions.ghostsSeeVotes = TheOtherRolesPlugin.GhostsSeeVotes.Value = !TheOtherRolesPlugin.GhostsSeeVotes.Value, TheOtherRolesPlugin.GhostsSeeVotes.Value),
-            new("Ghosts Can See Roles", () => TORMapOptions.ghostsSeeRoles = TheOtherRolesPlugin.GhostsSeeRoles.Value = !TheOtherRolesPlugin.GhostsSeeRoles.Value, TheOtherRolesPlugin.GhostsSeeRoles.Value),
-            new("Ghosts Can Additionally See Modifier", () => TORMapOptions.ghostsSeeModifier = TheOtherRolesPlugin.GhostsSeeModifier.Value = !TheOtherRolesPlugin.GhostsSeeModifier.Value, TheOtherRolesPlugin.GhostsSeeModifier.Value),
-            new("Show Role Summary", () => TORMapOptions.showRoleSummary = TheOtherRolesPlugin.ShowRoleSummary.Value = !TheOtherRolesPlugin.ShowRoleSummary.Value, TheOtherRolesPlugin.ShowRoleSummary.Value),
-            new("Show Lighter / Darker", () => TORMapOptions.showLighterDarker = TheOtherRolesPlugin.ShowLighterDarker.Value = !TheOtherRolesPlugin.ShowLighterDarker.Value, TheOtherRolesPlugin.ShowLighterDarker.Value),
+            new("Ghosts See Tasks & Other Info", () => TCRMapOptions.ghostsSeeInformation = TheCoustRolesPlugin.GhostsSeeInformation.Value = !TheCoustRolesPlugin.GhostsSeeInformation.Value, TheCoustRolesPlugin.GhostsSeeInformation.Value),
+            new("Ghosts Can See Votes", () => TCRMapOptions.ghostsSeeVotes = TheCoustRolesPlugin.GhostsSeeVotes.Value = !TheCoustRolesPlugin.GhostsSeeVotes.Value, TheCoustRolesPlugin.GhostsSeeVotes.Value),
+            new("Ghosts Can See Roles", () => TCRMapOptions.ghostsSeeRoles = TheCoustRolesPlugin.GhostsSeeRoles.Value = !TheCoustRolesPlugin.GhostsSeeRoles.Value, TheCoustRolesPlugin.GhostsSeeRoles.Value),
+            new("Ghosts Can Additionally See Modifier", () => TCRMapOptions.ghostsSeeModifier = TheCoustRolesPlugin.GhostsSeeModifier.Value = !TheCoustRolesPlugin.GhostsSeeModifier.Value, TheCoustRolesPlugin.GhostsSeeModifier.Value),
+            new("Show Role Summary", () => TCRMapOptions.showRoleSummary = TheCoustRolesPlugin.ShowRoleSummary.Value = !TheCoustRolesPlugin.ShowRoleSummary.Value, TheCoustRolesPlugin.ShowRoleSummary.Value),
+            new("Show Lighter / Darker", () => TCRMapOptions.showLighterDarker = TheCoustRolesPlugin.ShowLighterDarker.Value = !TheCoustRolesPlugin.ShowLighterDarker.Value, TheCoustRolesPlugin.ShowLighterDarker.Value),
             new("Enable Sound Effects", () =>  {
-                TORMapOptions.enableSoundEffects = TheOtherRolesPlugin.EnableSoundEffects.Value = !TheOtherRolesPlugin.EnableSoundEffects.Value;
-                if (!TORMapOptions.enableSoundEffects) SoundEffectsManager.stopAll();
-                 return TORMapOptions.enableSoundEffects;
-                }, TheOtherRolesPlugin.EnableSoundEffects.Value),
-            new("Show Vents On Map", () => TORMapOptions.ShowVentsOnMap = TheOtherRolesPlugin.ShowVentsOnMap.Value = !TheOtherRolesPlugin.ShowVentsOnMap.Value, TheOtherRolesPlugin.ShowVentsOnMap.Value),
-            new("Show Chat Notifications", () => TORMapOptions.ShowChatNotifications = TheOtherRolesPlugin.ShowChatNotifications.Value = !TheOtherRolesPlugin.ShowChatNotifications.Value, TheOtherRolesPlugin.ShowChatNotifications.Value),
+                TCRMapOptions.enableSoundEffects = TheCoustRolesPlugin.EnableSoundEffects.Value = !TheCoustRolesPlugin.EnableSoundEffects.Value;
+                if (!TCRMapOptions.enableSoundEffects) SoundEffectsManager.stopAll();
+                 return TCRMapOptions.enableSoundEffects;
+                }, TheCoustRolesPlugin.EnableSoundEffects.Value),
+            new("Show Vents On Map", () => TCRMapOptions.ShowVentsOnMap = TheCoustRolesPlugin.ShowVentsOnMap.Value = !TheCoustRolesPlugin.ShowVentsOnMap.Value, TheCoustRolesPlugin.ShowVentsOnMap.Value),
+            new("Show Chat Notifications", () => TCRMapOptions.ShowChatNotifications = TheCoustRolesPlugin.ShowChatNotifications.Value = !TheCoustRolesPlugin.ShowChatNotifications.Value, TheCoustRolesPlugin.ShowChatNotifications.Value),
         };
         
         private static GameObject popUp;
@@ -40,7 +40,7 @@ namespace TheOtherRoles.Patches
         public static void MainMenuManager_StartPostfix(MainMenuManager __instance)
         {
             // Prefab for the title
-            var go = new GameObject("TitleTextTOR");
+            var go = new GameObject("TitleTextTCR");
             var tmp = go.AddComponent<TextMeshPro>();
             tmp.fontSize = 4;
             tmp.alignment = TextAlignmentOptions.Center;
