@@ -3,20 +3,20 @@ using Hazel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static TheOtherRoles.TheOtherRoles;
-using static TheOtherRoles.GameHistory;
-using TheOtherRoles.Objects;
+using static TheCoustRoles.TheCoustRoles;
+using static TheCoustRoles.GameHistory;
+using TheCoustRoles.Objects;
 
-using TheOtherRoles.Utilities;
+using TheCoustRoles.Utilities;
 using UnityEngine;
-using TheOtherRoles.CustomGameModes;
+using TheCoustRoles.CustomGameModes;
 using static UnityEngine.GraphicsBuffer;
 using AmongUs.GameOptions;
 using Assets.CoreScripts;
 using Sentry.Internal.Extensions;
 using Reactor.Utilities.Extensions;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
     public static class PlayerControlFixedUpdatePatch {
         // Helpers
@@ -72,7 +72,7 @@ namespace TheOtherRoles.Patches {
                 if (Camouflager.camouflageTimer <= 0f && !Helpers.MushroomSabotageActive() && Medic.shieldVisible(target))
                     hasVisibleShield = true;
 
-                if (Camouflager.camouflageTimer <= 0f && !Helpers.MushroomSabotageActive() && TORMapOptions.firstKillPlayer != null && TORMapOptions.shieldFirstKill && ((target == TORMapOptions.firstKillPlayer && !isMorphedMorphling) || (isMorphedMorphling && Morphling.morphTarget == TORMapOptions.firstKillPlayer))) {
+                if (Camouflager.camouflageTimer <= 0f && !Helpers.MushroomSabotageActive() && TCRMapOptions.firstKillPlayer != null && TCRMapOptions.shieldFirstKill && ((target == TCRMapOptions.firstKillPlayer && !isMorphedMorphling) || (isMorphedMorphling && Morphling.morphTarget == TCRMapOptions.firstKillPlayer))) {
                     hasVisibleShield = true;
                     color = Color.blue;
                 }
@@ -532,7 +532,7 @@ namespace TheOtherRoles.Patches {
 
                     var (tasksCompleted, tasksTotal) = TasksHandler.taskInfo(p.Data);
                     string roleNames = RoleInfo.GetRolesString(p, true, false);
-                    string roleText = RoleInfo.GetRolesString(p, true, TORMapOptions.ghostsSeeModifier);
+                    string roleText = RoleInfo.GetRolesString(p, true, TCRMapOptions.ghostsSeeModifier);
                     string taskInfo = tasksTotal > 0 ? $"<color=#FAD934FF>({tasksCompleted}/{tasksTotal})</color>" : "";
 
                     string playerInfoText = "";
@@ -547,15 +547,15 @@ namespace TheOtherRoles.Patches {
                         }
                         meetingInfoText = $"{roleNames} {taskInfo}".Trim();
                     }
-                    else if (TORMapOptions.ghostsSeeRoles && TORMapOptions.ghostsSeeInformation) {
+                    else if (TCRMapOptions.ghostsSeeRoles && TCRMapOptions.ghostsSeeInformation) {
                         playerInfoText = $"{roleText} {taskInfo}".Trim();
                         meetingInfoText = playerInfoText;
                     }
-                    else if (TORMapOptions.ghostsSeeInformation) {
+                    else if (TCRMapOptions.ghostsSeeInformation) {
                         playerInfoText = $"{taskInfo}".Trim();
                         meetingInfoText = playerInfoText;
                     }
-                    else if (TORMapOptions.ghostsSeeRoles || (Lawyer.lawyerKnowsRole && PlayerControl.LocalPlayer == Lawyer.lawyer && p == Lawyer.target)) {
+                    else if (TCRMapOptions.ghostsSeeRoles || (Lawyer.lawyerKnowsRole && PlayerControl.LocalPlayer == Lawyer.lawyer && p == Lawyer.target)) {
                         playerInfoText = $"{roleText}";
                         meetingInfoText = playerInfoText;
                     }
@@ -656,7 +656,7 @@ namespace TheOtherRoles.Patches {
                 if (BountyHunter.cooldownText != null && BountyHunter.cooldownText.gameObject != null) UnityEngine.Object.Destroy(BountyHunter.cooldownText.gameObject);
                 BountyHunter.cooldownText = null;
                 BountyHunter.bounty = null;
-                foreach (PoolablePlayer p in TORMapOptions.playerIcons.Values) {
+                foreach (PoolablePlayer p in TCRMapOptions.playerIcons.Values) {
                     if (p != null && p.gameObject != null) p.gameObject.SetActive(false);
                 }
                 return;
@@ -674,7 +674,7 @@ namespace TheOtherRoles.Patches {
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls) {
                     if (!p.Data.IsDead && !p.Data.Disconnected && p != p.Data.Role.IsImpostor && p != Spy.spy && (p != Sidekick.sidekick || !Sidekick.wasTeamRed) && (p != Jackal.jackal || !Jackal.wasTeamRed) && (p != Mini.mini || Mini.isGrownUp()) && (Lovers.getPartner(BountyHunter.bountyHunter) == null || p != Lovers.getPartner(BountyHunter.bountyHunter))) possibleTargets.Add(p);
                 }
-                BountyHunter.bounty = possibleTargets[TheOtherRoles.rnd.Next(0, possibleTargets.Count)];
+                BountyHunter.bounty = possibleTargets[TheCoustRoles.rnd.Next(0, possibleTargets.Count)];
                 if (BountyHunter.bounty == null) return;
 
                 // Ghost Info
@@ -686,15 +686,15 @@ namespace TheOtherRoles.Patches {
 
                 // Show poolable player
                 if (FastDestroyableSingleton<HudManager>.Instance != null && FastDestroyableSingleton<HudManager>.Instance.UseButton != null) {
-                    foreach (PoolablePlayer pp in TORMapOptions.playerIcons.Values) pp.gameObject.SetActive(false);
-                    if (TORMapOptions.playerIcons.ContainsKey(BountyHunter.bounty.PlayerId) && TORMapOptions.playerIcons[BountyHunter.bounty.PlayerId].gameObject != null)
-                        TORMapOptions.playerIcons[BountyHunter.bounty.PlayerId].gameObject.SetActive(true);
+                    foreach (PoolablePlayer pp in TCRMapOptions.playerIcons.Values) pp.gameObject.SetActive(false);
+                    if (TCRMapOptions.playerIcons.ContainsKey(BountyHunter.bounty.PlayerId) && TCRMapOptions.playerIcons[BountyHunter.bounty.PlayerId].gameObject != null)
+                        TCRMapOptions.playerIcons[BountyHunter.bounty.PlayerId].gameObject.SetActive(true);
                 }
             }
 
             // Hide in meeting
-            if (MeetingHud.Instance && TORMapOptions.playerIcons.ContainsKey(BountyHunter.bounty.PlayerId) && TORMapOptions.playerIcons[BountyHunter.bounty.PlayerId].gameObject != null)
-                TORMapOptions.playerIcons[BountyHunter.bounty.PlayerId].gameObject.SetActive(false);
+            if (MeetingHud.Instance && TCRMapOptions.playerIcons.ContainsKey(BountyHunter.bounty.PlayerId) && TCRMapOptions.playerIcons[BountyHunter.bounty.PlayerId].gameObject != null)
+                TCRMapOptions.playerIcons[BountyHunter.bounty.PlayerId].gameObject.SetActive(false);
 
             // Update Cooldown Text
             if (BountyHunter.cooldownText != null) {
@@ -1217,7 +1217,7 @@ namespace TheOtherRoles.Patches {
                 target.clearAllTasks();
 
             // First kill (set before lover suicide)
-            if (TORMapOptions.firstKillName == "") TORMapOptions.firstKillName = target.Data.PlayerName;
+            if (TCRMapOptions.firstKillName == "") TCRMapOptions.firstKillName = target.Data.PlayerName;
 
             // Lover suicide trigger on murder
             if ((Lovers.lover1 != null && target == Lovers.lover1) || (Lovers.lover2 != null && target == Lovers.lover2)) {
@@ -1326,10 +1326,10 @@ namespace TheOtherRoles.Patches {
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls) {
                     if (!TORMapOptions.playerIcons.ContainsKey(p.PlayerId) || p.Data.Role.IsImpostor) continue;
                     if (p.Data.IsDead || p.Data.Disconnected) {
-                        TORMapOptions.playerIcons[p.PlayerId].gameObject.SetActive(false);
+                        TCRMapOptions.playerIcons[p.PlayerId].gameObject.SetActive(false);
                     }
                     else {
-                        TORMapOptions.playerIcons[p.PlayerId].transform.localPosition = bottomLeft + Vector3.right * visibleCounter * 0.35f;
+                        TCRMapOptions.playerIcons[p.PlayerId].transform.localPosition = bottomLeft + Vector3.right * visibleCounter * 0.35f;
                         visibleCounter++;
                     }
                 }
