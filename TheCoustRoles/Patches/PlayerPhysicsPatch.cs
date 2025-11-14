@@ -1,7 +1,7 @@
 using HarmonyLib;
 using UnityEngine;
 
-namespace TheOtherRoles.Patches;
+namespace TheCoustRoles.Patches;
 
 [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.Awake))]
 public static class PlayerPhysiscs_Awake_Patch
