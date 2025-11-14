@@ -11,11 +11,11 @@ namespace TheCoustRoles.Modules.CustomHats;
 
 public static class CustomHatManager
 {
-    public const string ResourcesDirectory = "TheOtherHats";
+    public const string ResourcesDirectory = "TheCoustHats";
     public const string InnerslothPackageName = "Innersloth Hats";
     public const string DeveloperPackageName = "Developer Hats";
     
-    internal static readonly Tuple<string, string> Repository = new("TheCoustRolesAU", "TheOtherHats");
+    internal static readonly Tuple<string, string> Repository = new("TheCoustRolesAU", "TheCoustHats");
     internal static string RepositoryUrl
     {
         get
