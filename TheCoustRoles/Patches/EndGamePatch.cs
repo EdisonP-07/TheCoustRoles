@@ -1,17 +1,17 @@
   
 using HarmonyLib;
-using static TheOtherRoles.TheOtherRoles;
+using static TheCoustRoles.TheCoustRoles;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
 using System.Text;
 
-using TheOtherRoles.Utilities;
-using TheOtherRoles.CustomGameModes;
+using TheCoustRoles.Utilities;
+using TheCoustRoles.CustomGameModes;
 using LibCpp2IL.Elf;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     enum CustomGameOverReason {
         LoversWin = 10,
         TeamJackalWin = 11,
@@ -229,7 +229,7 @@ namespace TheOtherRoles.Patches {
             AdditionalTempData.timer = ((float)(DateTime.UtcNow - (HideNSeek.isHideNSeekGM ? HideNSeek.startTime : PropHunt.startTime)).TotalMilliseconds) / 1000;
 
             // Reset Settings
-            if (TORMapOptions.gameMode == CustomGamemodes.HideNSeek ) ShipStatusPatch.resetVanillaSettings();
+            if (TCRMapOptions.gameMode == CustomGamemodes.HideNSeek ) ShipStatusPatch.resetVanillaSettings();
             RPCProcedure.resetVariables();
             EventUtility.gameEndsUpdate();
         }
@@ -357,7 +357,7 @@ namespace TheOtherRoles.Patches {
                 }
             }
 
-            if (TORMapOptions.showRoleSummary || HideNSeek.isHideNSeekGM || PropHunt.isPropHuntGM) {
+            if (TCRMapOptions.showRoleSummary || HideNSeek.isHideNSeekGM || PropHunt.isPropHuntGM) {
                 var position = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
                 GameObject roleSummary = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
                 roleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, position.y - 0.1f, -214f); 
