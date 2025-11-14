@@ -6,12 +6,12 @@ using UnityEngine;
 using System;
 using AmongUs.GameOptions;
 
-using TheOtherRoles.Utilities;
-using static TheOtherRoles.TheOtherRoles;
-using TheOtherRoles.CustomGameModes;
-using TheOtherRoles.Modules;
+using TheCoustRoles.Utilities;
+using static TheCoustRoles.TheCoustRoles;
+using TheCoustRoles.CustomGameModes;
+using TheCoustRoles.Modules;
 
-namespace TheOtherRoles.Patches
+namespace TheCoustRoles.Patches
 {
     [HarmonyPatch(typeof(RoleOptionsCollectionV08), nameof(RoleOptionsCollectionV08.GetNumPerGame))]
     class RoleOptionsDataGetNumPerGamePatch{
@@ -23,10 +23,10 @@ namespace TheOtherRoles.Patches
     [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
     class GameOptionsDataGetAdjustedNumImpostorsPatch {
         public static void Postfix(ref int __result) {
-            if (TORMapOptions.gameMode == CustomGamemodes.HideNSeek || TORMapOptions.gameMode == CustomGamemodes.PropHunt) {
-                int impCount = TORMapOptions.gameMode == CustomGamemodes.HideNSeek ? Mathf.RoundToInt(CustomOptionHolder.hideNSeekHunterCount.getFloat()) : CustomOptionHolder.propHuntNumberOfHunters.getQuantity();
+            if (TCRMapOptions.gameMode == CustomGamemodes.HideNSeek || TCRMapOptions.gameMode == CustomGamemodes.PropHunt) {
+                int impCount = TCRMapOptions.gameMode == CustomGamemodes.HideNSeek ? Mathf.RoundToInt(CustomOptionHolder.hideNSeekHunterCount.getFloat()) : CustomOptionHolder.propHuntNumberOfHunters.getQuantity();
                 __result = impCount; ; // Set Imp Num
-            } else if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.Normal) {  // Ignore Vanilla impostor limits in TOR Games.
+            } else if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.Normal) {  // Ignore Vanilla impostor limits in TCR Games.
                 __result = Mathf.Clamp(GameOptionsManager.Instance.CurrentGameOptions.NumImpostors, 1, 3);
             } 
         }
@@ -35,8 +35,8 @@ namespace TheOtherRoles.Patches
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.Validate))]
     class GameOptionsDataValidatePatch {
         public static void Postfix(GameOptionsData __instance) {
-            if (TORMapOptions.gameMode == CustomGamemodes.HideNSeek || GameOptionsManager.Instance.CurrentGameOptions.GameMode != GameModes.Normal) return;
-            if (TORMapOptions.gameMode == CustomGamemodes.PropHunt)
+            if (TCRMapOptions.gameMode == CustomGamemodes.HideNSeek || GameOptionsManager.Instance.CurrentGameOptions.GameMode != GameModes.Normal) return;
+            if (TCRMapOptions.gameMode == CustomGamemodes.PropHunt)
                 __instance.NumImpostors = CustomOptionHolder.propHuntNumberOfHunters.getQuantity();
             __instance.NumImpostors = GameOptionsManager.Instance.CurrentGameOptions.NumImpostors;
         }
@@ -48,12 +48,12 @@ namespace TheOtherRoles.Patches
         private static int impValues;
         private static bool isEvilGuesser;
         private static List<Tuple<byte, byte>> playerRoleMap = new List<Tuple<byte, byte>>();
-        public static bool isGuesserGamemode { get { return TORMapOptions.gameMode == CustomGamemodes.Guesser; } }
+        public static bool isGuesserGamemode { get { return TCRMapOptions.gameMode == CustomGamemodes.Guesser; } }
         public static void Postfix() {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ResetVaribles, Hazel.SendOption.Reliable, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             RPCProcedure.resetVariables();
-            if (TORMapOptions.gameMode == CustomGamemodes.HideNSeek || TORMapOptions.gameMode == CustomGamemodes.PropHunt || GameOptionsManager.Instance.currentGameOptions.GameMode == GameModes.HideNSeek
+            if (TCRMapOptions.gameMode == CustomGamemodes.HideNSeek || TCRMapOptions.gameMode == CustomGamemodes.PropHunt || GameOptionsManager.Instance.currentGameOptions.GameMode == GameModes.HideNSeek
                 || RoleDraft.isEnabled) return; // Don't assign Roles in Hide N Seek
             assignRoles();
         }
@@ -407,7 +407,7 @@ namespace TheOtherRoles.Patches
                     AmongUsClient.Instance.FinishRpcImmediately(w);
                     RPCProcedure.lawyerPromotesToPursuer();
                 } else {
-                    var target = possibleTargets[TheOtherRoles.rnd.Next(0, possibleTargets.Count)];
+                    var target = possibleTargets[TheCoustRoles.rnd.Next(0, possibleTargets.Count)];
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.LawyerSetTarget, Hazel.SendOption.Reliable, -1);
                     writer.Write(target.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
