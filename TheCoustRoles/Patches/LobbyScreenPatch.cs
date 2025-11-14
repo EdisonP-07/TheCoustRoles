@@ -5,7 +5,7 @@ using InnerNet;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch]
 
     public sealed class LobbyJoinBind {
