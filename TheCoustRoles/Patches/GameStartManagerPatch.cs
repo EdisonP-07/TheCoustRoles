@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using Hazel;
 using System;
 
-using TheOtherRoles.Utilities;
+using TheCoustRoles.Utilities;
 using System.Linq;
 using Reactor.Utilities.Extensions;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     public class GameStartManagerPatch  {
         public static Dictionary<int, PlayerVersion> playerVersions = new Dictionary<int, PlayerVersion>();
         public static float timer = 600f;
@@ -76,7 +76,7 @@ namespace TheOtherRoles.Patches {
                         message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has a different or no version of The Other Roles\n</color>";
                     } else {
                         PlayerVersion PV = playerVersions[client.Id];
-                        int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
+                        int diff = TheCoustRolesPlugin.Version.CompareTo(PV.version);
                         if (diff > 0) {
                             message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has an older version of The Other Roles (v{playerVersions[client.Id].version.ToString()})\n</color>";
                             versionMismatch = true;
@@ -84,7 +84,7 @@ namespace TheOtherRoles.Patches {
                             message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has a newer version of The Other Roles (v{playerVersions[client.Id].version.ToString()})\n</color>";
                             versionMismatch = true;
                         } else if (!PV.GuidMatches()) { // version presumably matches, check if Guid matches
-                            message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has a modified version of TOR v{playerVersions[client.Id].version.ToString()} <size=30%>({PV.guid.ToString()})</size>\n</color>";
+                            message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has a modified version of TCR v{playerVersions[client.Id].version.ToString()} <size=30%>({PV.guid.ToString()})</size>\n</color>";
                             versionMismatch = true;
                         }
                     }
@@ -144,7 +144,7 @@ namespace TheOtherRoles.Patches {
                 
                 // Client update with handshake infos
                 else {
-                    if (!playerVersions.ContainsKey(AmongUsClient.Instance.HostId) || TheOtherRolesPlugin.Version.CompareTo(playerVersions[AmongUsClient.Instance.HostId].version) != 0) {
+                    if (!playerVersions.ContainsKey(AmongUsClient.Instance.HostId) || TheCoustRolesPlugin.Version.CompareTo(playerVersions[AmongUsClient.Instance.HostId].version) != 0) {
                         kickingTimer += Time.deltaTime;
                         if (kickingTimer > 10) {
                             kickingTimer = 0;
@@ -218,9 +218,9 @@ namespace TheOtherRoles.Patches {
 
                 if (AmongUsClient.Instance.AmHost && sendGamemode && PlayerControl.LocalPlayer != null) {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShareGamemode, Hazel.SendOption.Reliable, -1);
-                    writer.Write((byte) TORMapOptions.gameMode);
+                    writer.Write((byte) TCRMapOptions.gameMode);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPCProcedure.shareGamemode((byte) TORMapOptions.gameMode);
+                    RPCProcedure.shareGamemode((byte) TCRMapOptions.gameMode);
                     sendGamemode = false;
                 }
             }
@@ -245,16 +245,16 @@ namespace TheOtherRoles.Patches {
                         }
                         
                         PlayerVersion PV = playerVersions[client.Id];
-                        int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
+                        int diff = TheCoustRolesPlugin.Version.CompareTo(PV.version);
                         if (diff != 0 || !PV.GuidMatches()) {
                             continueStart = false;
                             break;
                         }
                     }
-                    if (continueStart && (TORMapOptions.gameMode == CustomGamemodes.HideNSeek || TORMapOptions.gameMode == CustomGamemodes.PropHunt) && GameOptionsManager.Instance.CurrentGameOptions.MapId != 6) {
+                    if (continueStart && (TCRMapOptions.gameMode == CustomGamemodes.HideNSeek || TCRMapOptions.gameMode == CustomGamemodes.PropHunt) && GameOptionsManager.Instance.CurrentGameOptions.MapId != 6) {
                         byte mapId = 0;
-                        if (TORMapOptions.gameMode == CustomGamemodes.HideNSeek) mapId = (byte)CustomOptionHolder.hideNSeekMap.getSelection();
-                        else if (TORMapOptions.gameMode == CustomGamemodes.PropHunt) mapId = (byte)CustomOptionHolder.propHuntMap.getSelection();
+                        if (TCRMapOptions.gameMode == CustomGamemodes.HideNSeek) mapId = (byte)CustomOptionHolder.hideNSeekMap.getSelection();
+                        else if (TCRMapOptions.gameMode == CustomGamemodes.PropHunt) mapId = (byte)CustomOptionHolder.propHuntMap.getSelection();
                         if (mapId >= 3) mapId++;
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DynamicMapOption, Hazel.SendOption.Reliable, -1);
                         writer.Write(mapId);
@@ -291,7 +291,7 @@ namespace TheOtherRoles.Patches {
                         for (int i = 0; i < probabilities.Count; i++) {  // Normalize to [0,1]
                             probabilities[i] /= sum;
                         }
-                        float selection = (float)TheOtherRoles.rnd.NextDouble();
+                        float selection = (float)TheCoustRoles.rnd.NextDouble();
                         float cumsum = 0;
                         for (byte i = 0; i < probabilities.Count; i++) {
                             cumsum += probabilities[i];
