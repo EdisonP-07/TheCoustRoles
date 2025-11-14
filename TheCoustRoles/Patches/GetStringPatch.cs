@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch]
     class GetStringPatch {
         [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetString), new[] {
