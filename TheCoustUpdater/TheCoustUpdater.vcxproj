@@ -229,7 +229,7 @@
       <SDLCheck>true</SDLCheck>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="TheOtherUpdater.cpp" />
+    <ClCompile Include="TheCoustUpdater.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\zip\miniz.h" />
