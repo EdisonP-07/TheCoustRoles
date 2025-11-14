@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
 using HarmonyLib;
-using TheOtherRoles.Utilities;
-using static TheOtherRoles.TheOtherRoles;
+using TheCoustRoles.Utilities;
+using static TheCoustRoles.TheCoustRoles;
 using UnityEngine;
-using TheOtherRoles.CustomGameModes;
+using TheCoustRoles.CustomGameModes;
 using AmongUs.GameOptions;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
 
     [HarmonyPatch(typeof(ShipStatus))]
     public class ShipStatusPatch 
@@ -117,12 +117,12 @@ namespace TheOtherRoles.Patches {
             originalNumShortTasksOption = GameOptionsManager.Instance.currentNormalGameOptions.NumShortTasks;
             originalNumLongTasksOption = GameOptionsManager.Instance.currentNormalGameOptions.NumLongTasks;
 
-            if (TORMapOptions.gameMode != CustomGamemodes.HideNSeek) {
+            if (TCRMapOptions.gameMode != CustomGamemodes.HideNSeek) {
                 var commonTaskCount = __instance.CommonTasks.Count;
                 var normalTaskCount = __instance.ShortTasks.Count;
                 var longTaskCount = __instance.LongTasks.Count;
 
-                if (TORMapOptions.gameMode == CustomGamemodes.PropHunt) {
+                if (TCRMapOptions.gameMode == CustomGamemodes.PropHunt) {
                     commonTaskCount = normalTaskCount = longTaskCount = 0;
                 }
 
