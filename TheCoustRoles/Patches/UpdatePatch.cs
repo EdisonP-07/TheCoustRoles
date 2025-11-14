@@ -1,16 +1,16 @@
 using HarmonyLib;
 using System;
 using UnityEngine;
-using static TheOtherRoles.TheOtherRoles;
-using TheOtherRoles.Objects;
+using static TheCoustRoles.TheCoustRoles;
+using TheCoustRoles.Objects;
 using System.Collections.Generic;
 using System.Linq;
 
-using TheOtherRoles.Utilities;
-using TheOtherRoles.CustomGameModes;
+using TheCoustRoles.Utilities;
+using TheCoustRoles.CustomGameModes;
 using AmongUs.GameOptions;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     class HudManagerUpdatePatch
     {
@@ -225,7 +225,7 @@ namespace TheOtherRoles.Patches {
             }
 
             // Display lighter / darker color for all alive players
-            if (PlayerControl.LocalPlayer != null && MeetingHud.Instance != null && TORMapOptions.showLighterDarker) {
+            if (PlayerControl.LocalPlayer != null && MeetingHud.Instance != null && TCRMapOptions.showLighterDarker) {
                 foreach (PlayerVoteArea player in MeetingHud.Instance.playerStates) {
                     var target = Helpers.playerById(player.TargetPlayerId);
                     if (target != null)  player.NameText.text += $" ({(Helpers.isLighterColor(target) ? "L" : "D")})";
@@ -329,7 +329,7 @@ namespace TheOtherRoles.Patches {
         }
 
         static void updateSabotageButton(HudManager __instance) {
-            if (MeetingHud.Instance || TORMapOptions.gameMode == CustomGamemodes.HideNSeek || TORMapOptions.gameMode == CustomGamemodes.PropHunt) __instance.SabotageButton.Hide();
+            if (MeetingHud.Instance || TCRMapOptions.gameMode == CustomGamemodes.HideNSeek || TCRMapOptions.gameMode == CustomGamemodes.PropHunt) __instance.SabotageButton.Hide();
             if (PlayerControl.LocalPlayer.Data.IsDead && CustomOptionHolder.deadImpsBlockSabotage.getBool()) __instance.SabotageButton.Hide();
         }
 
