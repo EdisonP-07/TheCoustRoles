@@ -2,7 +2,7 @@ using HarmonyLib;
 
 using UnityEngine;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
 
     [HarmonyPatch]
 
