@@ -3,18 +3,18 @@ using System;
 using Hazel;
 using UnityEngine;
 using System.Linq;
-using static TheOtherRoles.TheOtherRoles;
-using static TheOtherRoles.GameHistory;
-using static TheOtherRoles.TORMapOptions;
+using static TheCoustRoles.TheCoustRoles;
+using static TheCoustRoles.GameHistory;F
+using static TheCoustRoles.TCRMapOptions;
 using System.Collections.Generic;
 
-using TheOtherRoles.Utilities;
-using TheOtherRoles.Objects;
-using TheOtherRoles.CustomGameModes;
+using TheCoustRoles.Utilities;
+using TheCoustRoles.Objects;
+using TheCoustRoles.CustomGameModes;
 using Reactor.Utilities.Extensions;
 using AmongUs.GameOptions;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
 
     [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
     public static class VentCanUsePatch
@@ -500,7 +500,7 @@ namespace TheOtherRoles.Patches {
         private static float timer = 0f;
 
         public static List<GameObject> nightVisionOverlays = null;
-        private static Sprite overlaySprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.NightVisionOverlay.png", 350f);
+        private static Sprite overlaySprite = Helpers.loadSpriteFromResources("TheCoustRoles.Resources.NightVisionOverlay.png", 350f);
         public static bool nightVisionIsActive = false;
         private static bool isLightsOut;
 
@@ -726,7 +726,7 @@ namespace TheOtherRoles.Patches {
     [HarmonyPatch(typeof(MedScanMinigame), nameof(MedScanMinigame.FixedUpdate))]
     class MedScanMinigameFixedUpdatePatch {
         static void Prefix(MedScanMinigame __instance) {
-            if (TORMapOptions.allowParallelMedBayScans) {
+            if (TCRMapOptions.allowParallelMedBayScans) {
                 __instance.medscan.CurrentUser = PlayerControl.LocalPlayer.PlayerId;
                 __instance.medscan.UsersList.Clear();
             }
