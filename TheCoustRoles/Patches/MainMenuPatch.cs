@@ -5,17 +5,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.UI.Button;
 using Object = UnityEngine.Object;
-using TheOtherRoles.Patches;
+using TheCoustRoles.Patches;
 using UnityEngine.SceneManagement;
-using TheOtherRoles.Utilities;
+using TheCoustRoles.Utilities;
 using AmongUs.Data;
 using Assets.InnerNet;
 using System.Linq;
 
-namespace TheOtherRoles.Modules {
+namespace TheCoustRoles.Modules {
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     public class MainMenuPatch {
-        private static bool horseButtonState = TORMapOptions.enableHorseMode;
+        private static bool horseButtonState = TCRMapOptions.enableHorseMode;
         //private static Sprite horseModeOffSprite = null;
         //private static Sprite horseModeOnSprite = null;
         private static AnnouncementPopUp popUp;
@@ -46,7 +46,7 @@ namespace TheOtherRoles.Modules {
 
             var textDiscord = buttonDiscord.transform.GetComponentInChildren<TMPro.TMP_Text>();
             __instance.StartCoroutine(Effects.Lerp(0.5f, new System.Action<float>((p) => {
-                textDiscord.SetText("TOR Discord");
+                textDiscord.SetText("TCR Discord");
             })));
             PassiveButton passiveButtonDiscord = buttonDiscord.GetComponent<PassiveButton>();
             
@@ -55,7 +55,7 @@ namespace TheOtherRoles.Modules {
 
 
             
-            // TOR credits button
+            // TCR credits button
             if (template == null) return;
             var creditsButton = Object.Instantiate(template, template.transform.parent);
 
@@ -64,7 +64,7 @@ namespace TheOtherRoles.Modules {
 
             var textCreditsButton = creditsButton.transform.GetComponentInChildren<TMPro.TMP_Text>();
             __instance.StartCoroutine(Effects.Lerp(0.5f, new System.Action<float>((p) => {
-                textCreditsButton.SetText("TOR Credits");
+                textCreditsButton.SetText("TCR Credits");
             })));
             PassiveButton passiveCreditsButton = creditsButton.GetComponent<PassiveButton>();
 
@@ -75,7 +75,7 @@ namespace TheOtherRoles.Modules {
                 if (popUp != null) Object.Destroy(popUp);
                 var popUpTemplate = Object.FindObjectOfType<AnnouncementPopUp>(true);
                 if (popUpTemplate == null) {
-                    TheOtherRolesPlugin.Logger.LogError("couldnt show credits, popUp is null");
+                    TheCoustRolesPlugin.Logger.LogError("couldnt show credits, popUp is null");
                     return;
                 }
                 popUp = Object.Instantiate(popUpTemplate);
@@ -123,16 +123,16 @@ TheEpicRoles - Idea for the first kill shield (partly) and the (old) tabbed opti
 ugackMiner53 - Idea and core code for the Prop Hunt game mode
 Role Draft Music: [https://www.youtube.com/watch?v=9STiQ8cCIo0]Unreal Superhero 3 by Kenët & Rez[]
 
-License: TheOtherRoles is licensed under the [https://github.com/TheOtherRolesAU/TheOtherRoles?tab=GPL-3.0-1-ov-file#readme]GPLv3[]
+License: TheCoustRoles is licensed under the [https://github.com/TheCoustRolesAU/TheCoustRoles?tab=GPL-3.0-1-ov-file#readme]GPLv3[]
 </size>";
                 creditsString += "</align>";
 
                 Assets.InnerNet.Announcement creditsAnnouncement = new() {
-                    Id = "torCredits",
+                    Id = "tcrCredits",
                     Language = 0,
                     Number = 500,
-                    Title = "The Other Roles\nCredits & Resources",
-                    ShortTitle = "TOR Credits",
+                    Title = "The Coust Roles\nCredits & Resources",
+                    ShortTitle = "TCR Credits",
                     SubTitle = "",
                     PinState = false,
                     Date = "01.07.2021",
@@ -157,7 +157,7 @@ License: TheOtherRoles is licensed under the [https://github.com/TheOtherRolesAU
         public static void addSceneChangeCallbacks() {
             SceneManager.add_sceneLoaded((Action<Scene, LoadSceneMode>)((scene, _) => {
                 if (!scene.name.Equals("MatchMaking", StringComparison.Ordinal)) return;
-                TORMapOptions.gameMode = CustomGamemodes.Classic;
+                TCRMapOptions.gameMode = CustomGamemodes.Classic;
                 // Add buttons For Guesser Mode, Hide N Seek in this scene.
                 // find "HostLocalGameButton"
                 var template = GameObject.FindObjectOfType<HostLocalGameButton>();
@@ -171,7 +171,7 @@ License: TheOtherRoles is licensed under the [https://github.com/TheOtherRolesAU
                 
                 guesserButtonPassiveButton.OnClick = new Button.ButtonClickedEvent();
                 guesserButtonPassiveButton.OnClick.AddListener((System.Action)(() => {
-                    TORMapOptions.gameMode = CustomGamemodes.Guesser;
+                    TCRMapOptions.gameMode = CustomGamemodes.Guesser;
                     template.OnClick();
                 }));
 
@@ -182,7 +182,7 @@ License: TheOtherRoles is licensed under the [https://github.com/TheOtherRolesAU
                 
                 HideNSeekButtonPassiveButton.OnClick = new Button.ButtonClickedEvent();
                 HideNSeekButtonPassiveButton.OnClick.AddListener((System.Action)(() => {
-                    TORMapOptions.gameMode = CustomGamemodes.HideNSeek;
+                    TCRMapOptions.gameMode = CustomGamemodes.HideNSeek;
                     template.OnClick();
                 }));
 
@@ -193,14 +193,14 @@ License: TheOtherRoles is licensed under the [https://github.com/TheOtherRolesAU
 
                 PropHuntButtonPassiveButton.OnClick = new Button.ButtonClickedEvent();
                 PropHuntButtonPassiveButton.OnClick.AddListener((System.Action)(() => {
-                    TORMapOptions.gameMode = CustomGamemodes.PropHunt;
+                    TCRMapOptions.gameMode = CustomGamemodes.PropHunt;
                     template.OnClick();
                 }));
 
                 template.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) => {
-                    guesserButtonText.SetText("TOR Guesser");
-                    HideNSeekButtonText.SetText("TOR Hide N Seek");
-                    PropHuntButtonText.SetText("TOR Prop Hunt");
+                    guesserButtonText.SetText("TCR Guesser");
+                    HideNSeekButtonText.SetText("TCR Hide N Seek");
+                    PropHuntButtonText.SetText("TCR Prop Hunt");
                 })));
             }));
         }
