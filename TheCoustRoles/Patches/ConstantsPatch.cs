@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch(typeof(Constants), nameof(Constants.GetBroadcastVersion))]
     public static class ConstantsPatch {
         public static void Postfix(ref int __result) {
