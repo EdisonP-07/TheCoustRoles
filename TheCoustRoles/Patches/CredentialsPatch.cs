@@ -4,17 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TheOtherRoles;
-using TheOtherRoles.CustomGameModes;
-using TheOtherRoles.Utilities;
+using TheCoustRoles;
+using TheCoustRoles.CustomGameModes;
+using TheCoustRoles.Utilities;
 using TMPro;
 using UnityEngine;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch]
     public static class CredentialsPatch {
         public static string fullCredentialsVersion = 
-$@"<size=130%><color=#ff351f>TheOtherRoles</color></size> v{TheOtherRolesPlugin.Version.ToString() + (TheOtherRolesPlugin.betaDays>0 ? "-BETA": "")}";
+$@"<size=130%><color=#ff351f>TheCoustRoles</color></size> v{TheCoustRolesPlugin.Version.ToString() + (TheCoustRolesPlugin.betaDays>0 ? "-BETA": "")}";
 public static string fullCredentials =
 $@"<size=60%>Modded by <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>EndOfFile</color>
 <color=#FCCE03FF>Thunderstorm584</color>, <color=#FCCE03FF>Mallöris</color> & <color=#FCCE03FF>Gendelo</color>
@@ -41,13 +41,13 @@ $@"<size=60%> <color=#FCCE03FF>Special thanks to Smeggy</color></size>";
                     else if (HandleGuesser.isGuesserGm) gameModeText = $"Guesser";
                     else if (PropHunt.isPropHuntGM) gameModeText = "Prop Hunt";
                     if (gameModeText != "") gameModeText = Helpers.cs(Color.yellow, gameModeText) + (MeetingHud.Instance ? " " : "\n");
-                    __instance.text.text = $"<size=130%><color=#ff351f>TheOtherRoles</color></size> v{TheOtherRolesPlugin.Version.ToString() + (TheOtherRolesPlugin.betaDays > 0 ? "-BETA" : "")}\n{gameModeText}" + __instance.text.text;
+                    __instance.text.text = $"<size=130%><color=#ff351f>TheCoustRoles</color></size> v{TheCoustRolesPlugin.Version.ToString() + (TheCoustRolesPlugin.betaDays > 0 ? "-BETA" : "")}\n{gameModeText}" + __instance.text.text;
                     position.DistanceFromEdge = MeetingHud.Instance ? new Vector3(1.25f, 0.15f, 0) : new Vector3(1.55f, 0.15f, 0);
                 } else {
                     string gameModeText = $"";
-                    if (TORMapOptions.gameMode == CustomGamemodes.HideNSeek) gameModeText = $"Hide 'N Seek";
-                    else if (TORMapOptions.gameMode == CustomGamemodes.Guesser) gameModeText = $"Guesser";
-                    else if (TORMapOptions.gameMode == CustomGamemodes.PropHunt) gameModeText = $"Prop Hunt";
+                    if (TCRMapOptions.gameMode == CustomGamemodes.HideNSeek) gameModeText = $"Hide 'N Seek";
+                    else if (TCRMapOptions.gameMode == CustomGamemodes.Guesser) gameModeText = $"Guesser";
+                    else if (TCRMapOptions.gameMode == CustomGamemodes.PropHunt) gameModeText = $"Prop Hunt";
                     if (gameModeText != "") gameModeText = Helpers.cs(Color.yellow, gameModeText);
 
                     __instance.text.text = $"{fullCredentialsVersion}\n{fullCredentials}\n {__instance.text.text}";
@@ -77,32 +77,32 @@ $@"<size=60%> <color=#FCCE03FF>Special thanks to Smeggy</color></size>";
             public static TextMeshPro motdText;
 
             static void Postfix(PingTracker __instance) {
-                var torLogo = new GameObject("bannerLogo_TOR");
-                torLogo.transform.SetParent(GameObject.Find("RightPanel").transform, false);
-                torLogo.transform.localPosition = new Vector3(-0.4f, 1f, 5f);
+                var tcrLogo = new GameObject("bannerLogo_TCR");
+                tcrLogo.transform.SetParent(GameObject.Find("RightPanel").transform, false);
+                tcrLogo.transform.localPosition = new Vector3(-0.4f, 1f, 5f);
 
-                renderer = torLogo.AddComponent<SpriteRenderer>();
+                renderer = tcrLogo.AddComponent<SpriteRenderer>();
                 loadSprites();
-                renderer.sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Banner.png", 300f);
+                renderer.sprite = Helpers.loadSpriteFromResources("TheCoustRoles.Resources.Banner.png", 300f);
 
                 instance = __instance;
                 loadSprites();
-                // renderer.sprite = TORMapOptions.enableHorseMode ? horseBannerSprite : bannerSprite;
+                // renderer.sprite = TCRMapOptions.enableHorseMode ? horseBannerSprite : bannerSprite;
                 renderer.sprite = EventUtility.isEnabled ? banner2Sprite : bannerSprite;
-                var credentialObject = new GameObject("credentialsTOR");
+                var credentialObject = new GameObject("credentialsTCR");
                 var credentials = credentialObject.AddComponent<TextMeshPro>();
-                credentials.SetText($"v{TheOtherRolesPlugin.Version.ToString() + (TheOtherRolesPlugin.betaDays > 0 ? "-BETA" : "")}\n<size=30f%>\n</size>{mainMenuCredentials}\n<size=30%>\n</size>{contributorsCredentials}");
+                credentials.SetText($"v{TheCoustRolesPlugin.Version.ToString() + (TheCoustRolesPlugin.betaDays > 0 ? "-BETA" : "")}\n<size=30f%>\n</size>{mainMenuCredentials}\n<size=30%>\n</size>{contributorsCredentials}");
                 credentials.alignment = TMPro.TextAlignmentOptions.Center;
                 credentials.fontSize *= 0.05f;
 
-                credentials.transform.SetParent(torLogo.transform);
+                credentials.transform.SetParent(tcrLogo.transform);
                 credentials.transform.localPosition = Vector3.down * 1.25f;
-                motdObject = new GameObject("torMOTD");
+                motdObject = new GameObject("tcrMOTD");
                 motdText = motdObject.AddComponent<TextMeshPro>();
                 motdText.alignment = TMPro.TextAlignmentOptions.Center;
                 motdText.fontSize *= 0.04f;
 
-                motdText.transform.SetParent(torLogo.transform);
+                motdText.transform.SetParent(tcrLogo.transform);
                 motdText.enableWordWrapping = true;
                 var rect = motdText.gameObject.GetComponent<RectTransform>();
                 rect.sizeDelta = new Vector2(5.2f, 0.25f);
@@ -116,9 +116,9 @@ $@"<size=60%> <color=#FCCE03FF>Special thanks to Smeggy</color></size>";
             }
 
             public static void loadSprites() {
-                if (bannerSprite == null) bannerSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Banner.png", 300f);
-                if (banner2Sprite == null) banner2Sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Banner2.png", 300f);
-                if (horseBannerSprite == null) horseBannerSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.bannerTheHorseRoles.png", 300f);
+                if (bannerSprite == null) bannerSprite = Helpers.loadSpriteFromResources("TheCoustRoles.Resources.Banner.png", 300f);
+                if (banner2Sprite == null) banner2Sprite = Helpers.loadSpriteFromResources("TheCoustRoles.Resources.Banner2.png", 300f);
+                if (horseBannerSprite == null) horseBannerSprite = Helpers.loadSpriteFromResources("TheCoustRoles.Resources.bannerTheHorseRoles.png", 300f);
             }
 
             public static void updateSprite() {
@@ -128,7 +128,7 @@ $@"<size=60%> <color=#FCCE03FF>Special thanks to Smeggy</color></size>";
                     instance.StartCoroutine(Effects.Lerp(fadeDuration, new Action<float>((p) => {
                         renderer.color = new Color(1, 1, 1, 1 - p);
                         if (p == 1) {
-                            renderer.sprite = TORMapOptions.enableHorseMode ? horseBannerSprite : bannerSprite;
+                            renderer.sprite = TCRMapOptions.enableHorseMode ? horseBannerSprite : bannerSprite;
                             instance.StartCoroutine(Effects.Lerp(fadeDuration, new Action<float>((p) => {
                                 renderer.color = new Color(1, 1, 1, p);
                             })));
@@ -167,7 +167,7 @@ $@"<size=60%> <color=#FCCE03FF>Special thanks to Smeggy</color></size>";
 
             public static async Task loadMOTDs() {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://raw.githubusercontent.com/TheOtherRolesAU/MOTD/main/motd.txt");
+                HttpResponseMessage response = await client.GetAsync("https://raw.githubusercontent.com/TheCoustRolesAU/MOTD/main/motd.txt");
                 response.EnsureSuccessStatusCode();
                 string motds = await response.Content.ReadAsStringAsync();
                 foreach(string line in motds.Split("\n", StringSplitOptions.RemoveEmptyEntries)) {
