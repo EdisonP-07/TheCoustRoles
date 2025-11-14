@@ -2,14 +2,14 @@ using HarmonyLib;
 using Hazel;
 using System.Collections.Generic;
 using System.Linq;
-using static TheOtherRoles.TheOtherRoles;
-using TheOtherRoles.Objects;
+using static TheCoustRoles.TheCoustRoles;
+using TheCoustRoles.Objects;
 using System;
 
-using TheOtherRoles.Utilities;
+using TheCoustRoles.Utilities;
 using UnityEngine;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch(typeof(ExileController), nameof(ExileController.BeginForGameplay))]
     [HarmonyPriority(Priority.First)]
     class ExileControllerBeginPatch {
@@ -89,15 +89,15 @@ namespace TheOtherRoles.Patches {
 
             // SecurityGuard vents and cameras
             var allCameras = MapUtilities.CachedShipStatus.AllCameras.ToList();
-            TORMapOptions.camerasToAdd.ForEach(camera => {
+            TCRMapOptions.camerasToAdd.ForEach(camera => {
                 camera.gameObject.SetActive(true);
                 camera.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
                 allCameras.Add(camera);
             });
             MapUtilities.CachedShipStatus.AllCameras = allCameras.ToArray();
-            TORMapOptions.camerasToAdd = new List<SurvCamera>();
+            TCRMapOptions.camerasToAdd = new List<SurvCamera>();
 
-            foreach (Vent vent in TORMapOptions.ventsToSeal) {
+            foreach (Vent vent in TCRMapOptions.ventsToSeal) {
                 PowerTools.SpriteAnim animator = vent.GetComponent<PowerTools.SpriteAnim>();
                 vent.EnterVentAnim = vent.ExitVentAnim = null;
                 Sprite newSprite = animator == null ? SecurityGuard.getStaticVentSealedSprite() : SecurityGuard.getAnimatedVentSealedSprite();
@@ -114,7 +114,7 @@ namespace TheOtherRoles.Patches {
                 rend.color = Color.white;
                 vent.name = "SealedVent_" + vent.name;
             }
-            TORMapOptions.ventsToSeal = new List<Vent>();
+            TCRMapOptions.ventsToSeal = new List<Vent>();
 
             EventUtility.meetingEndsUpdate();
         }
@@ -216,11 +216,11 @@ namespace TheOtherRoles.Patches {
                 Vector3 newBottomLeft = IntroCutsceneOnDestroyPatch.bottomLeft;
                 var BottomLeft = newBottomLeft + new Vector3(-0.25f, -0.25f, 0);
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls) {
-                    if (!TORMapOptions.playerIcons.ContainsKey(p.PlayerId)) continue;
+                    if (!TCRMapOptions.playerIcons.ContainsKey(p.PlayerId)) continue;
                     if (p.Data.IsDead || p.Data.Disconnected) {
-                        TORMapOptions.playerIcons[p.PlayerId].gameObject.SetActive(false);
+                        TCRMapOptions.playerIcons[p.PlayerId].gameObject.SetActive(false);
                     } else {
-                        TORMapOptions.playerIcons[p.PlayerId].transform.localPosition = newBottomLeft + Vector3.right * visibleCounter * 0.35f;
+                        TCRMapOptions.playerIcons[p.PlayerId].transform.localPosition = newBottomLeft + Vector3.right * visibleCounter * 0.35f;
                         visibleCounter++;
                     }
                 }
