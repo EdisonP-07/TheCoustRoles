@@ -49,10 +49,10 @@ namespace TheCoustRoles.Modules {
 
                         if (AmongUsClient.Instance.AmHost) {
                             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShareGamemode, Hazel.SendOption.Reliable, -1);
-                            writer.Write((byte)TORMapOptions.gameMode);
+                            writer.Write((byte)TCRMapOptions.gameMode);
                             AmongUsClient.Instance.FinishRpcImmediately(writer);
                             RPCProcedure.shareGamemode((byte)gameMode);
-                            RPCProcedure.shareGamemode((byte)TORMapOptions.gameMode);
+                            RPCProcedure.shareGamemode((byte)TCRMapOptions.gameMode);
                         } else {
                             __instance.AddChat(PlayerControl.LocalPlayer, "Nice try, but you have to be the host to use this feature");
                         }
