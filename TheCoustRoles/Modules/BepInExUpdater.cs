@@ -47,9 +47,9 @@ public class BepInExUpdater : MonoBehaviour
         File.WriteAllBytes(zipPath, www.downloadHandler.data);
 
         
-        var tempPath = Path.Combine(Path.GetTempPath(), "TheOtherUpdater.exe");
+        var tempPath = Path.Combine(Path.GetTempPath(), "TheCoustUpdater.exe");
         var asm = Assembly.GetExecutingAssembly();
-        var exeName = asm.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith("TheOtherUpdater.exe"));
+        var exeName = asm.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith("TheCoustUpdater.exe"));
         
         using(var resource = asm.GetManifestResourceStream(exeName))
         {
