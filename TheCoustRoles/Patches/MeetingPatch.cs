@@ -2,17 +2,17 @@ using HarmonyLib;
 using Hazel;
 using System.Collections.Generic;
 using System.Linq;
-using static TheOtherRoles.TheOtherRoles;
-using static TheOtherRoles.TORMapOptions;
-using TheOtherRoles.Objects;
+using static TheCoustRoles.TheCoustRoles;
+using static TheCoustRoles.TCRMapOptions;
+using TheCoustRoles.Objects;
 using System;
 
-using TheOtherRoles.Utilities;
+using TheCoustRoles.Utilities;
 using UnityEngine;
 using Innersloth.Assets;
 using TMPro;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch]
     class MeetingHudPatch {
         static bool[] selections;
@@ -141,7 +141,7 @@ namespace TheOtherRoles.Patches {
             public static bool Prefix(MeetingHud __instance, NetworkedPlayerInfo voterPlayer, int index, Transform parent) {
                 var spriteRenderer = UnityEngine.Object.Instantiate<SpriteRenderer>(__instance.PlayerVotePrefab);
                 var showVoteColors = !GameManager.Instance.LogicOptions.GetAnonymousVotes() ||
-                                      (PlayerControl.LocalPlayer.Data.IsDead && TORMapOptions.ghostsSeeVotes) || 
+                                      (PlayerControl.LocalPlayer.Data.IsDead && TCRMapOptions.ghostsSeeVotes) || 
                                       (Mayor.mayor != null && Mayor.mayor == PlayerControl.LocalPlayer && Mayor.canSeeVoteColors && TasksHandler.taskInfo(PlayerControl.LocalPlayer.Data).Item1 >= Mayor.tasksNeededToSeeVoteColors);
                 if (showVoteColors)
                 {
@@ -785,7 +785,7 @@ namespace TheOtherRoles.Patches {
                 if (__instance.state >= MeetingHud.VoteStates.Discussion)
                 {
                     // Remove first kill shield
-                    TORMapOptions.firstKillPlayer = null;
+                    TCRMapOptions.firstKillPlayer = null;
                 }
             }
         }
