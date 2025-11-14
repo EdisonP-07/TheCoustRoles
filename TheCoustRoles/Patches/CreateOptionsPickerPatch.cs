@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine;
 using static UnityEngine.UI.Button;
 
-namespace TheOtherRoles.Patches {
+namespace TheCoustRoles.Patches {
     [HarmonyPatch(typeof(CreateOptionsPicker))]
     class CreateOptionsPickerPatch {
         private static List<SpriteRenderer> renderers = new List<SpriteRenderer>();
@@ -14,21 +14,21 @@ namespace TheOtherRoles.Patches {
         [HarmonyPatch(typeof(CreateOptionsPicker), nameof(CreateOptionsPicker.SetGameMode))]
         public static bool Prefix(CreateOptionsPicker __instance, ref GameModes mode) {
             if (mode <= GameModes.HideNSeek) {
-                TORMapOptions.gameMode = CustomGamemodes.Classic;
+                TCRMapOptions.gameMode = CustomGamemodes.Classic;
                 return true;
             }
 
             __instance.SetGameMode(GameModes.Normal);
             CustomGamemodes gm = (CustomGamemodes)((int) mode - 2);
             if (gm == CustomGamemodes.Guesser) {
-                __instance.GameModeText.text = "TOR Guesser";
-                TORMapOptions.gameMode = CustomGamemodes.Guesser;
+                __instance.GameModeText.text = "TCR Guesser";
+                TCRMapOptions.gameMode = CustomGamemodes.Guesser;
             } else if (gm == CustomGamemodes.HideNSeek) {
-                __instance.GameModeText.text = "TOR Hide N Seek";
-                TORMapOptions.gameMode = CustomGamemodes.HideNSeek;
+                __instance.GameModeText.text = "TCR Hide N Seek";
+                TCRMapOptions.gameMode = CustomGamemodes.HideNSeek;
             } else if (gm == CustomGamemodes.PropHunt) {
-                __instance.GameModeText.text = "TOR Prop Hunt";
-                TORMapOptions.gameMode = CustomGamemodes.PropHunt;
+                __instance.GameModeText.text = "TCR Prop Hunt";
+                TCRMapOptions.gameMode = CustomGamemodes.PropHunt;
             }
             return false;
         }
@@ -36,13 +36,13 @@ namespace TheOtherRoles.Patches {
 
         [HarmonyPatch(typeof(CreateOptionsPicker), nameof(CreateOptionsPicker.Refresh))]
         public static void Postfix(CreateOptionsPicker __instance) {
-            if (TORMapOptions.gameMode == CustomGamemodes.Guesser) {
-                __instance.GameModeText.text = "TOR Guesser";
+            if (TCRMapOptions.gameMode == CustomGamemodes.Guesser) {
+                __instance.GameModeText.text = "TCR Guesser";
             }
-            else if (TORMapOptions.gameMode == CustomGamemodes.HideNSeek) {
-                __instance.GameModeText.text = "TOR Hide N Seek";
-            } else if (TORMapOptions.gameMode == CustomGamemodes.PropHunt) {
-                __instance.GameModeText.text = "TOR Prop Hunt";
+            else if (TCRMapOptions.gameMode == CustomGamemodes.HideNSeek) {
+                __instance.GameModeText.text = "TCR Hide N Seek";
+            } else if (TCRMapOptions.gameMode == CustomGamemodes.PropHunt) {
+                __instance.GameModeText.text = "TCR Prop Hunt";
             }
         }
     }
@@ -64,16 +64,16 @@ namespace TheOtherRoles.Patches {
                     if (i <= 2)
                         chatLanguageButton.Text.text = DestroyableSingleton<TranslationController>.Instance.GetString(GameModesHelpers.ModeToName[entry], new Il2CppReferenceArray<Il2CppSystem.Object>(0));
                     else {
-                        chatLanguageButton.Text.text = i == 3 ? "TOR Guesser" : "TOR Hide N Seek";
+                        chatLanguageButton.Text.text = i == 3 ? "TCR Guesser" : "TCR Hide N Seek";
                         if (i == 5)
-                            chatLanguageButton.Text.text = "TOR Prop Hunt";
+                            chatLanguageButton.Text.text = "TCR Prop Hunt";
                     }
                     chatLanguageButton.Button.OnClick.RemoveAllListeners();
                     chatLanguageButton.Button.OnClick.AddListener((System.Action)delegate {
                         __instance.ChooseOption(entry);
                     });
 
-                    bool isCurrentMode = i <= 2 && TORMapOptions.gameMode == CustomGamemodes.Classic ? (long)entry == (long)((ulong)gameMode) : (i == 3 && TORMapOptions.gameMode == CustomGamemodes.Guesser || i == 4 && TORMapOptions.gameMode == CustomGamemodes.HideNSeek || i == 5 && TORMapOptions.gameMode == CustomGamemodes.PropHunt);
+                    bool isCurrentMode = i <= 2 && TCRMapOptions.gameMode == CustomGamemodes.Classic ? (long)entry == (long)((ulong)gameMode) : (i == 3 && TCRMapOptions.gameMode == CustomGamemodes.Guesser || i == 4 && TCRMapOptions.gameMode == CustomGamemodes.HideNSeek || i == 5 && TCRMapOptions.gameMode == CustomGamemodes.PropHunt);
                     chatLanguageButton.SetSelected(isCurrentMode);
                     __instance.controllerSelectable.Add(chatLanguageButton.Button);
                     if (isCurrentMode) {
